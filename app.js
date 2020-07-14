@@ -10,6 +10,171 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const employees = [];
+
+inquirer.prompt([
+    {
+        type: "input",
+        name: "managerName",
+        message: "What is your name?"
+    },
+    {
+        type: "input",
+        name: "managerId",
+        message: "What is your id number?"
+    },
+    {
+        type: "input",
+        name: "managerEmail",
+        message: "What is your email?"
+    },
+    {
+        type: "input",
+        name: "managerOffice",
+        message: "What is your office number?"
+    },
+    {
+        type: "list",
+        name: "nextTeammate",
+        message: "Would you like to add a teammate",
+        choices: [
+            "yes",
+            "no, I'm finished"
+        ]
+    }
+
+]).then(data => {
+    const newManager = new Manager(data.managerName, data.managerId, data.managerEmail, data.managerOffice);
+
+    employees.push(newManager);
+
+    console.log("Employees: " + JSON.stringify(employees));
+
+    if (data.nextTeammate === "no, I'm finished") {
+        render(employees);
+        console.log(render(employees));
+        return
+    }
+    else {
+        const teammate = function () {
+            let stopFlag = false;
+            if (stopFlag === false) {
+                // while (stopFlag === false) {
+                inquirer.prompt([
+                    {
+                        type: "list",
+                        name: "nextTeammateRole",
+                        message: "Okay, let's add a teammate. What role?",
+                        choices: [
+                            "Engineer",
+                            "Intern"
+                        ]
+                    }
+                ]).then(data => {
+                    if (data.nextTeammateRole === "Engineer") {
+                        inquirer.prompt([
+                            {
+                                type: "input",
+                                name: "name",
+                                message: "What is the employee's name?"
+                            },
+                            {
+                                type: "input",
+                                name: "id",
+                                message: "What is the employee's id number?"
+                            },
+                            {
+                                type: "input",
+                                name: "email",
+                                message: "What is the employee's email?"
+                            },
+                            {
+                                type: "input",
+                                name: "githubUsername",
+                                message: "What is the employee's GitHub username?"
+                            },
+                            {
+                                type: "list",
+                                name: "nextTeammate",
+                                message: "Would you like to add a teammate",
+                                choices: [
+                                    "yes",
+                                    "no, I'm finished"
+                                ]
+                            }]).then(data => {
+                                const newEngineer = new Engineer(data.name, data.id, data.email, data.githubUsername);
+                                employees.push(newEngineer);
+
+                                console.log("Employees: " + JSON.stringify(employees));
+
+                                if (data.nextTeammate === "no, I'm finished") {
+                                    stopFlag = true;
+                                    render(employees);
+                                    console.log(render(employees));
+                                    return
+                                }
+
+                                teammate();
+
+                            })
+                    }
+                    else {
+                        inquirer.prompt([
+                            {
+                                type: "input",
+                                name: "name",
+                                message: "What is the employee's name?"
+                            },
+                            {
+                                type: "input",
+                                name: "id",
+                                message: "What is the employee's id number?"
+                            },
+                            {
+                                type: "input",
+                                name: "email",
+                                message: "What is the employee's email?"
+                            },
+                            {
+                                type: "input",
+                                name: "school",
+                                message: "What school did the employee go to?"
+                            },
+                            {
+                                type: "list",
+                                name: "nextTeammate",
+                                message: "Would you like to add a teammate",
+                                choices: [
+                                    "yes",
+                                    "no, I'm finished"
+                                ]
+                            }]).then(data => {
+                                const newIntern = new Intern(data.name, data.id, data.email, data.school);
+                                employees.push(newIntern);
+
+                                console.log("Employees: " + JSON.stringify(employees));
+
+                                if (data.nextTeammate === "no, I'm finished") {
+                                    stopFlag = true;
+                                    render(employees);
+                                    console.log(render(employees));
+                                    return
+                                }
+
+                                teammate();
+
+                            })
+                    }
+                    // marker
+                })
+            }
+        }
+        teammate();
+    }
+    // render(employees);
+    // console.log(render(employees));
+})
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
