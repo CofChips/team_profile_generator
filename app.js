@@ -10,8 +10,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+// This will hold the final array of objects
 const employees = [];
 
+// Beginning of prompt - assumes manager is the person generating the file
 inquirer.prompt([
     {
         type: "input",
@@ -44,22 +46,29 @@ inquirer.prompt([
     }
 
 ]).then(data => {
+    // creates a manager object based on user inputs
     const newManager = new Manager(data.managerName, data.managerId, data.managerEmail, data.managerOffice);
-
+    // pushes to array
     employees.push(newManager);
 
-    console.log("Manager logged! Employees: " + JSON.stringify(employees));
+    console.log("\nManager logged! \nEmployees: " + JSON.stringify(employees,null,'\t'));
 
     if (data.nextTeammate === "no, I'm finished") {
-        render(employees);
-        console.log(render(employees));
+        fs.writeFile(outputPath, render(employees), (err) => {
+            if (err) {
+                console.log(err)
+            }
+            else {
+                console.log("HTML file created");
+            }
+        });
         return
     }
     else {
         const teammate = function () {
             let stopFlag = false;
             if (stopFlag === false) {
-                // while (stopFlag === false) {
+                // checks to see what role the new teammate performs
                 inquirer.prompt([
                     {
                         type: "list",
@@ -71,6 +80,7 @@ inquirer.prompt([
                         ]
                     }
                 ]).then(data => {
+                    // inputs for engineers
                     if (data.nextTeammateRole === "Engineer") {
                         inquirer.prompt([
                             {
@@ -105,18 +115,18 @@ inquirer.prompt([
                                 const newEngineer = new Engineer(data.name, data.id, data.email, data.githubUsername);
                                 employees.push(newEngineer);
 
-                                console.log("Engineer logged! Employees: " + JSON.stringify(employees));
+                                console.log("\nEngineer logged! \nEmployees: " + JSON.stringify(employees,null,'\t'));
 
                                 if (data.nextTeammate === "no, I'm finished") {
                                     stopFlag = true;
-                                    fs.writeFile(outputPath,render(employees),(err)=>{
-                                        if(err){
+                                    fs.writeFile(outputPath, render(employees), (err) => {
+                                        if (err) {
                                             console.log(err)
                                         }
-                                        else{
+                                        else {
                                             console.log("HTML file created");
                                         }
-                                    } ) ;
+                                    });
                                     return
                                 }
 
@@ -125,6 +135,7 @@ inquirer.prompt([
                             })
                     }
                     else {
+                        // inputs for interns
                         inquirer.prompt([
                             {
                                 type: "input",
@@ -158,18 +169,18 @@ inquirer.prompt([
                                 const newIntern = new Intern(data.name, data.id, data.email, data.school);
                                 employees.push(newIntern);
 
-                                console.log("Intern logged! Employees: " + JSON.stringify(employees));
+                                console.log("\nIntern logged! \nEmployees: " + JSON.stringify(employees,null,'\t'));
 
                                 if (data.nextTeammate === "no, I'm finished") {
                                     stopFlag = true;
-                                    fs.writeFile(outputPath,render(employees),(err)=>{
-                                        if(err){
+                                    fs.writeFile(outputPath, render(employees), (err) => {
+                                        if (err) {
                                             console.log(err)
                                         }
-                                        else{
+                                        else {
                                             console.log("HTML file created");
                                         }
-                                    } ) ;
+                                    });
                                     return
                                 }
 
@@ -177,14 +188,12 @@ inquirer.prompt([
 
                             })
                     }
-                
+
                 })
             }
         }
         teammate();
     }
-    // render(employees);
-    // console.log(render(employees));
 })
 
 
