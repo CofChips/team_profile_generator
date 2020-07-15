@@ -18,22 +18,54 @@ inquirer.prompt([
     {
         type: "input",
         name: "managerName",
-        message: "What is your name?"
+        message: "What is your name?",
+        validate: function(value){
+            if(value){
+                return true
+            } 
+            else{
+                return "Please enter a name"
+            }
+        }
     },
     {
         type: "input",
         name: "managerId",
-        message: "What is your id number?"
+        message: "What is your id number?",
+        validate: function(value){
+            if(value){
+                return true
+            } 
+            else{
+                return "Please enter an id number"
+            }
+        }
     },
     {
         type: "input",
         name: "managerEmail",
-        message: "What is your email?"
+        message: "What is your email?",
+        validate: function(value){
+            if(value.includes("@")){
+                return true
+            } 
+            else{
+                return "Please enter a valid email address"
+            }
+        }
     },
     {
         type: "input",
         name: "managerOffice",
-        message: "What is your office number?"
+        message: "What is your office number?",
+        validate: function(value){
+            if(value){
+                return true
+            } 
+            else{
+                return "Please enter an office number or 'none' if you do not have one"
+            }
+        }
     },
     {
         type: "list",
@@ -86,22 +118,54 @@ inquirer.prompt([
                             {
                                 type: "input",
                                 name: "name",
-                                message: "What is the employee's name?"
+                                message: "What is the employee's name?",
+                                validate: function(value){
+                                    if(value){
+                                        return true
+                                    } 
+                                    else{
+                                        return "Please enter a name"
+                                    }
+                                }
                             },
                             {
                                 type: "input",
                                 name: "id",
-                                message: "What is the employee's id number?"
+                                message: "What is the employee's id number?",
+                                validate: function(value){
+                                    if(value){
+                                        return true
+                                    } 
+                                    else{
+                                        return "Please enter an id"
+                                    }
+                                }
                             },
                             {
                                 type: "input",
                                 name: "email",
-                                message: "What is the employee's email?"
+                                message: "What is the employee's email?",
+                                validate: function(value){
+                                    if(value.includes("@")){
+                                        return true
+                                    } 
+                                    else{
+                                        return "Please enter a valid email"
+                                    }
+                                }
                             },
                             {
                                 type: "input",
                                 name: "githubUsername",
-                                message: "What is the employee's GitHub username?"
+                                message: "What is the employee's GitHub username?",
+                                validate: function(value){
+                                    if(value){
+                                        return true
+                                    } 
+                                    else{
+                                        return "Please enter a GitHub username or 'none', if applicable"
+                                    }
+                                }
                             },
                             {
                                 type: "list",
@@ -140,22 +204,54 @@ inquirer.prompt([
                             {
                                 type: "input",
                                 name: "name",
-                                message: "What is the employee's name?"
+                                message: "What is the employee's name?",
+                                validate: function(value){
+                                    if(value){
+                                        return true
+                                    } 
+                                    else{
+                                        return "Please enter a name"
+                                    }
+                                }
                             },
                             {
                                 type: "input",
                                 name: "id",
-                                message: "What is the employee's id number?"
+                                message: "What is the employee's id number?",
+                                validate: function(value){
+                                    if(value){
+                                        return true
+                                    } 
+                                    else{
+                                        return "Please enter an id number"
+                                    }
+                                }
                             },
                             {
                                 type: "input",
                                 name: "email",
-                                message: "What is the employee's email?"
+                                message: "What is the employee's email?",
+                                validate: function(value){
+                                    if(value.includes("@")){
+                                        return true
+                                    } 
+                                    else{
+                                        return "Please enter a valid email"
+                                    }
+                                }
                             },
                             {
                                 type: "input",
                                 name: "school",
-                                message: "What school did the employee go to?"
+                                message: "What school did the employee go to?",
+                                validate: function(value){
+                                    if(value){
+                                        return true
+                                    } 
+                                    else{
+                                        return "Please enter a school or 'none', if applicable"
+                                    }
+                                }
                             },
                             {
                                 type: "list",
